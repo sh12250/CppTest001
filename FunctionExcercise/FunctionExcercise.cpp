@@ -2,31 +2,11 @@
 #include<stdio.h>
 #include<time.h>
 
+// 이게 프로토 타입 선언, 전방선언
+// main함수 보다 먼저 내가 만든 함수가 이런 모양이다 하고 알려주는 역할
+// 함수가 많아 main함수를 보기 어려울 때, 코드를 한눈에 알아보기 힘들 때 쓴다
+void SocialSecurityNumber(int age);
 // 이게 함수의 정의
-void SocialSecurityNumber(int age) 
-{
-    printf("제 이름은 정석환입니다. 나이는 %d살이고, 전화번호는 010-2486-4240입니다. \n\n", age);
-}
-
-float CriticalHit(float damage) 
-{
-    srand((unsigned int) time(NULL));
-    int rate = rand() * 2;
-    int criticalrate = rate - ((rate / 100) * 100);
-    float criticaldamagerate = 1.5;
-
-    printf("70을 초과하면 크리티컬! : %d \n\n", criticalrate);
-
-    if (criticalrate > 70)
-    {
-        return damage * criticaldamagerate;
-    }
-    else 
-    {
-        return damage;
-    }
-}
-
 void PlusFunction(int number1, int number2) 
 {
     printf("%d + %d = %d \n", number1, number2, number1 + number2);
@@ -48,6 +28,24 @@ void ModCalcFunction(int number1, int number2)
     printf("%d %% %d = %d \n\n", number1, number2, number1 % number2);
 }
 
+float CriticalHit(float damage) 
+{
+    srand((unsigned int) time(NULL));
+    int rate = rand() * 2;
+    int criticalrate = rate - ((rate / 100) * 100);
+    float criticaldamagerate = 1.5;
+
+    printf("70을 초과하면 크리티컬! : %d \n\n", criticalrate);
+
+    if (criticalrate > 70)
+    {
+        return damage * criticaldamagerate;
+    }
+    else 
+    {
+        return damage;
+    }
+}
 void HealingFunction(int healingpower) 
 {
     int FullHealthPoint = 50;
@@ -60,8 +58,14 @@ void HealingFunction(int healingpower)
     printf("힐받은 체력 : %d \n\n", HealthPoint);
 }
 
+void RockScissorsPaper(int npc, int player) 
+{
+    printf("%s", (player < npc) ? "플레이어 승리!" : "플레이어 패배!");
+}
+
 int main()
 {
+    /*
     int number = 10; // int는 정수Intezer의 약자다
     float number2 = 1.66666; // 정수부분만 입력되고 소수점 아래는 입력되지 않는다
 
@@ -81,29 +85,29 @@ int main()
 
     printf("someNumber안에는 무슨 값이 들어 있을까? %d \n", someNumber);
 
-    //int num1 = 10;
-    //int num2 = 12;
-    //int result1, result2, result3;
+    int num1 = 10;
+    int num2 = 12;
+    int result1, result2, result3;
 
-    //result1 = num1 != num2;
-    //result2 = num1 <= num2;
-    //result3 = num1 >= num2;
+    result1 = num1 != num2;
+    result2 = num1 <= num2;
+    result3 = num1 >= num2;
 
-    //printf("Result1 결과는 %d \n", result1); // 0
-    //printf("Result2 결과는 %d \n", result2); // 1
-    //printf("Result3 결과는 %d \n", result3); // 0
+    printf("Result1 결과는 %d \n", result1); // 0
+    printf("Result2 결과는 %d \n", result2); // 1
+    printf("Result3 결과는 %d \n", result3); // 0
 
-    //int num1 = 10;
-    //int num2 = 12;
-    //int result1, result2, result3;
+    int num1 = 10;
+    int num2 = 12;
+    int result1, result2, result3;
 
-    //result1 = (num1 == 10 && num2 == 12); // 양쪽을 먼저 연산하고 &&(논리곱)을 연산한다
-    //result2 = (num1 < 12 || num2 > 12);
-    //result3 = (!num1); // C++에서 0이 아닌 다른 모든 숫자는 '참'이다.
+    result1 = (num1 == 10 && num2 == 12); // 양쪽을 먼저 연산하고 &&(논리곱)을 연산한다
+    result2 = (num1 < 12 || num2 > 12);
+    result3 = (!num1); // C++에서 0이 아닌 다른 모든 숫자는 '참'이다.
 
-    //printf("result1 : %d \n", result1);
-    //printf("result2 : %d \n", result2);
-    //printf("result3 : %d \n", result3);
+    printf("result1 : %d \n", result1);
+    printf("result2 : %d \n", result2);
+    printf("result3 : %d \n", result3);
 
     int age = 20;
     bool boolresult;
@@ -113,7 +117,6 @@ int main()
 
     printf("Bool Result는 어떤 값? %d \n\n", (age < 20) ? false : true);
 
-    /*
     printf("%d + %d = %d \n", num1, num2, result); // 더하기
     printf("%d - %d = %d \n", num1, num2, num1 - num2); // 빼기
     printf("%d * %d = %d \n", num1, num2, num1 * num2); // 곱하기
@@ -125,11 +128,36 @@ int main()
     MultiplyFunction(num1, num2);
     DivideFunction(num1, num2);
     ModCalcFunction(num1, num2);
-    */
     // 전체 체력 50 현재 체력 20 힐받는 양은 입력받는다, 전체 체력을 초과할 수 없다.
     HealingFunction(31);
+    */
+
+    int npc = 2;
+    int player;
+
+    scanf_s("%d", &player);
+    RockScissorsPaper(npc, player);
 
 
+    //int inputnumber;
+
+    //printf("가위 바위 보! \n");
+
+    //scanf_s("%d", &inputnumber);
+
+    //printf("Input Number의 값은? %d \n", inputnumber);
+
+
+    // 가위바위보
+    // 플레이어는 1, 2, 3 중에 하나를 입력받는다
+    // 컴퓨터는 숫자 2를 가지고 있다
+    // 1은 가위 2는 바위 3은 보다
+    // 플레이어의 승리 혹은 패배(무승부 포함)를 출력한다
+}
+
+void SocialSecurityNumber(int age) 
+{
+    printf("제 이름은 정석환입니다. 나이는 %d살이고, 전화번호는 010-2486-4240입니다. \n\n", age);
 }
 
 /*
