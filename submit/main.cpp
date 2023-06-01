@@ -1,27 +1,103 @@
 #include <iostream>
 #include <stdio.h>
 
-void SquareMaker(int squareSize)
+void SpecialSquare(int size)
 {
-	int width = squareSize;
-	int length = squareSize;
-
-	while (length > 0)
+	if (size % 2 == 0)
 	{
-		width = squareSize;
+		size -= 1;
+	}
 
-		while (width > 0)
+	int space = 1;
+	int save = 1;
+
+	int widthLeft = (size - space) / 2;
+	int widthRight = widthLeft;
+	int lengthTop = (size - 1) / 2;
+	int lengthBottom = lengthTop;
+
+	while (lengthTop > 0)
+	{
+		widthLeft = (size - space) / 2;
+		widthRight = widthLeft;
+
+
+		while (widthLeft > 0)
 		{
 			printf("* ");
-			width -= 1;
+			widthLeft -= 1;
+		}
 
-			if (width == 0)
+		if (widthLeft == 0)
+		{
+			while (space > 0)
 			{
+				printf("  ");
+				space -= 1;
+			}
+
+			if (space == 0) {
+				save += 2;
+				space = save;
+			}
+		}
+
+		while (widthRight > 0)
+		{
+			printf("* ");
+			widthRight -= 1;
+
+			if (widthRight == 0) {
 				printf("\n");
 			}
 		}
 
-		length -= 1;
+		lengthTop -= 1;
+	}
+
+	printf("\n");
+
+	while (lengthBottom > 0)
+	{
+		save -= 2;
+		space = save;
+		widthLeft = (size - save) / 2;
+		widthRight = widthLeft;
+
+
+		while (widthLeft > 0)
+		{
+			printf("* ");
+			widthLeft -= 1;
+		}
+
+		if (widthLeft == 0)
+		{
+			while (space > 0)
+			{
+				printf("  ");
+				space -= 1;
+			}
+
+			if (space == 0) {
+				if (save != size)
+				{
+					space = save;
+				}
+			}
+		}
+
+		while (widthRight > 0)
+		{
+			printf("* ");
+			widthRight -= 1;
+
+			if (widthRight == 0) {
+				printf("\n");
+			}
+		}
+
+		lengthBottom -= 1;
 	}
 }
 
@@ -31,7 +107,7 @@ int main()
 
 	scanf_s("%d", &loopCount);
 
-	SquareMaker(loopCount);
+	SpecialSquare(loopCount);
 
 	return 0;
 }
