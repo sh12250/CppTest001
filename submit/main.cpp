@@ -1,17 +1,37 @@
 #include <iostream>
 #include <stdio.h>
 
-void RockScissorsPaper(int npc, int player)
+void SquareMaker(int squareSize)
 {
-	printf("%s", (player < npc) ? "플레이어 승리!" : "플레이어 패배!");
+	int width = squareSize;
+	int length = squareSize;
 
+	while (length > 0)
+	{
+		width = squareSize;
+
+		while (width > 0)
+		{
+			printf("* ");
+			width -= 1;
+
+			if (width == 0)
+			{
+				printf("\n");
+			}
+		}
+
+		length -= 1;
+	}
 }
 
 int main() 
 {
-	int npc = 2;
-	int player;
+	int loopCount;
 
-	scanf_s("%d", &player);
-	RockScissorsPaper(npc, player);
+	scanf_s("%d", &loopCount);
+
+	SquareMaker(loopCount);
+
+	return 0;
 }
