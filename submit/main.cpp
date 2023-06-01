@@ -1,8 +1,10 @@
-#include<stdio.h>
+#include <iostream>
+#include <stdio.h>
 
 void RockScissorsPaper(int npc, int player)
 {
 	printf("%s", (player < npc) ? "플레이어 승리!" : "플레이어 패배!");
+
 }
 
 int main() 
@@ -12,6 +14,4 @@ int main()
 
 	scanf_s("%d", &player);
 	RockScissorsPaper(npc, player);
-
-
 }
