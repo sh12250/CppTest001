@@ -10,20 +10,19 @@ using namespace std;
 const int MAXPERCENT = 100;
 
 int dayCount = 0;
-
 int killCount = 0;
+int roadIncount = 0;
+
 int playerLevel = 0;
 int playerAtk = 10;
 int playerMaxHp = 50;
 int playerCurHp = playerMaxHp;
-int roadIncount = 0;
 
 int mobMaxHp = 0;
 int mobCurHp = 0;
 int mobAtk = 0;
 
 /*
-
 게임 루프 활용해서  ( 배틀 시스템 + 걷기 시스템 )
 플레이어의 최대 HP는 50, 플레이어가 6번 길을 걸으면 게임 종료
 
@@ -36,7 +35,6 @@ int mobAtk = 0;
 			  -> 몬스터의 체력, 공격력, 플레이어의 공격력은 커스텀
 			  -> 전투는 40퍼 확률로 발생
 			  -> 60퍼 확률로 플레이어 회복
-
 */
 
 // 게임 설정
@@ -54,7 +52,6 @@ void IntroPrint(), RandomRoute(), Graphics(int ), IsTown(), IsBattle(), Battle()
 
 int main() {
 	int playMore = 0;
-	MonsterStat();
 
 	Graphics(7);
 	printf("Press any key... \n");
@@ -69,6 +66,10 @@ int main() {
 			break;
 		}
 
+		if (playerCurHp == 0) {
+			break;
+		}
+
 		RandomRoute();
 	}
 
@@ -78,7 +79,7 @@ int main() {
 	Sleep(1000);
 	system("cls");
 	// 2회차 이상
-	while (true) {
+	while (playerCurHp != 0) {
 		Graphics(7);
 		printf("다음 날을 시작할까요? \n");
 		printf("1. 예       2. 아니오 \n");
@@ -100,7 +101,7 @@ int main() {
 			dayCount += 1;
 			playMore = 0;
 			roadIncount = 0;
-			MonsterStat();
+			playerCurHp = playerMaxHp;
 
 			Graphics(7);
 			printf("마을 자경단 %d일차... \n", dayCount);
@@ -136,6 +137,7 @@ int main() {
 
 // 전투 출력
 void Battle() {
+	MonsterStat();
 	// 정보 출력
 	InfoPrint(mobMaxHp);
 
@@ -151,8 +153,6 @@ void Battle() {
 		if (mobCurHp == 0) {
 			killCount += 1;
 
-			PlayerLevelUP();
-
 			break;
 		}
 		// 전투 진행
@@ -165,11 +165,17 @@ void Battle() {
 
 // 몬스터 스탯 생성
 void MonsterStat() {
-	int mobStat = (RandomPercent() % (16 + (3 * dayCount))) + (15 + (3 * dayCount));
+	int mobStat = (RandomPercent() % 16 + 15);
 	mobMaxHp = mobStat;
 	mobCurHp = mobMaxHp;
-	mobStat = (RandomPercent() % (6 + (2 * dayCount))) + (5 + (2 * dayCount));
+	mobStat = (RandomPercent() % 6  + 5);
 	mobAtk = mobStat;
+
+	if (dayCount > 0) {
+		mobMaxHp += dayCount;
+		mobCurHp = mobMaxHp;
+		mobAtk += 1;
+	}
 }
 
 // 다음 턴 진행 전 출력
@@ -180,7 +186,8 @@ void TurnWait(int maxhp) {
 
 	if (dayCount > 0) {
 		if (mobCurHp <= 0) {
-			printf("\n늑대를 퇴치했다 \n");
+			printf("\n늑대를 퇴치했다 ");
+			PlayerLevelUP();
 		}
 		else if (playerCurHp < (playerMaxHp / 2)) {
 			printf("\n슬슬 위험한데... \n");
@@ -191,7 +198,8 @@ void TurnWait(int maxhp) {
 	}
 	else {
 		if (mobCurHp <= 0) {
-			printf("\n늑대와의 전투에서 승리했다. \n");
+			printf("\n늑대와의 전투에서 승리했다. ");
+			PlayerLevelUP();
 		}
 		else if (playerCurHp < (playerMaxHp / 2)) {
 			printf("\n힘든 싸움이 될 것 같다... \n");
@@ -217,7 +225,6 @@ int BattlePrint(int maxhp, int atk) {
 	printf("늑대 ( %d / %d ) ", mobCurHp, maxhp);
 	printf("\n============================================================\n");
 
-	PlayerHeal();
 	PlayerAtk();
 	printf("\n============================================================\n");
 	printf("나 ( %d / %d ) \n", playerCurHp, playerMaxHp);
@@ -280,7 +287,7 @@ void PlayerAtk() {
 
 	if(isCri > MAXPERCENT- CRIRATE){
 		damage *= CRIATKRATE;
-		printf("\n치명타※ %d의 데미지를 입혔다 ", damage);
+		printf("\n\n치명타※ %d의 데미지를 입혔다 ", damage);
 
 		mobCurHp -= damage;
 
@@ -289,7 +296,7 @@ void PlayerAtk() {
 		}
 	}
 	else {
-		printf("\n공격＃ %d의 데미지를 입혔다 ", damage);
+		printf("\n\n공격＃ %d의 데미지를 입혔다 ", damage);
 
 		mobCurHp -= damage;
 
@@ -305,6 +312,11 @@ void PlayerLevelUP() {
 		playerLevel += 1;
 		playerAtk += 2;
 		playerMaxHp += 5;
+
+		printf("\n강해진 기분이 든다 ");
+	}
+	else {
+		printf("\n");
 	}
 }
 
@@ -356,6 +368,7 @@ void Graphics(int graphicnum) {
 		<< ";::~~~~~~~~~~~~~----------------------~~~:!=========$$$$####" << endl
 		<< ";;::~~~~~~~~~~~~~~~~------------------~~:;!**==$$$=*===$$$$#" << endl;
 		printf("============================================================\n");
+		printf("나 ( %d / %d ) \n", playerCurHp, playerMaxHp);
 
 		break;
 		// 강
@@ -403,6 +416,7 @@ void Graphics(int graphicnum) {
 		<< "#$$##$=*=$=---~!$!::;:::~-;!!=***;!!*!**=****==*=$=**=======" << endl
 		<< "@@@#$****$=~~:;;;~--~~~!--;=#$==$***!*$=**;!*=**=========!;=" << endl;
 		printf("============================================================\n");
+		printf("나 ( %d / %d ) \n", playerCurHp, playerMaxHp);
 
 		break;
 		// 산
@@ -450,6 +464,7 @@ void Graphics(int graphicnum) {
 		<< "=!==*===***!!;!;!;:~::~~-~~~~~-~,~::::~:~;~::~:::;;!!;!=*=*=" << endl
 		<< "$***==***!!;-;:;;!:::;::::~~~~~~~:~--:::::~~:::;:;:;!!*!!!=!" << endl;
 		printf("============================================================\n");
+		printf("나 ( %d / %d ) \n", playerCurHp, playerMaxHp);
 
 		break;
 		// 산에 사는 몬스터 늑대
@@ -533,6 +548,7 @@ void Graphics(int graphicnum) {
 		<< "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl
 		<< "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl;
 		printf("============================================================\n");
+		printf("나 ( %d / %d ) \n", playerCurHp, playerMaxHp);
 
 		break;
 		// 마을
@@ -580,6 +596,7 @@ void Graphics(int graphicnum) {
 		<< ",,,,,,,,,,,,,,,,..,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,--:;!" << endl
 		<< ",,,,,,,,,,,,,,,,,.,,.,,,,,,-,,,,,,,,,,,,,,,,,.,,,,,--,,,----" << endl;
 		printf("============================================================\n");
+		printf("나 ( %d / %d ) \n", playerCurHp, playerMaxHp);
 
 		break;
 		// 게임 시작 화면?
@@ -650,10 +667,6 @@ void IsBattle() {
 	const int BATTLERATE = 40;
 	int isBattle = RandomPercent();
 
-	if (dayCount > 0) {
-		isBattle += 20;
-	}
-
 	if (isBattle > MAXPERCENT - BATTLERATE) {
 		Graphics(3);
 		Sleep(300);
@@ -673,16 +686,13 @@ void IsBattle() {
 	else {
 		Graphics(3);
 		Sleep(300);
-
-		if (dayCount > 0) {
-			printf("지금은 없는 모양이다 \n");
-		}
-		else {
-			printf("무사히 지나갔다 \n");
-		}
+			
+		printf("신비한 힘이 나를 감싼다 \n");
 
 		_getch();
 		system("cls");
+
+		PlayerHeal();
 	}
 }
 
@@ -693,15 +703,11 @@ void PlayerHeal() {
 	int isHeal = RandomPercent();
 
 	if (isHeal > MAXPERCENT - HEALRATE) {
-		printf("\n신비한 힘이 나를 감싼다 ");
 		playerCurHp += HEALPOWER;
 
 		if (playerCurHp > playerMaxHp) {
 			playerCurHp = playerMaxHp;
 		}
-	}
-	else {
-		printf("\n");
 	}
 }
 
@@ -772,7 +778,7 @@ int RandomPercent() {
 
 void IntroPrint() {
 	printf("\n============================================================\n");
-	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 	Sleep(100);
 	printf("모");
 	Sleep(100);
@@ -867,7 +873,7 @@ void IntroPrint() {
 	Sleep(100);
 	printf("?");
 	Sleep(100);
-	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 	printf("\n============================================================\n");
 
 	Sleep(2000);
