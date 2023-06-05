@@ -64,6 +64,9 @@ void HomewrkHard()
 
 void HomeWorkVeryHard()
 {
+	const int MAX_ARR_ELEMENTS = 4;
+	const int MIN_ARR_ELEMENTS = 0;
+
 	char userInput = 0;
 	int board[5] = { 0, };
 
@@ -79,9 +82,81 @@ void HomeWorkVeryHard()
 		printf("%c ", board[i]);
 	}
 
+	while (true)
+	{
+		// a 아니면 d 아니면 그외를 계속 받겠다
+		userInput = _getch();
 
+		if (userInput == 'a' || userInput == 'A')						// 왼쪽으로 가는 입력값
+		{
+			// 입력값 
+			userInput = 0;
 
+			for (int i = 0; i < 5; i++)
+			{
+				if (board[i] == '0' && i != MIN_ARR_ELEMENTS)			// 맨 왼쪽이 아닐때
+				{
+					system("cls");
+
+					board[i - 1] = '0';
+					board[i] = '*';
+
+					for (int j = 0; j < 5; j++)
+					{
+						printf("%c ", board[j]);
+					}
+
+					break; // 0을 찾고 나면 필요없으므로 루프 종료
+				}
+				else if (board[i] == '0' && i == MIN_ARR_ELEMENTS)		// 맨 왼쪽 일때
+				{
+					system("cls");
+
+					for (int j = 0; j < 5; j++)
+					{
+						printf("%c ", board[j]);
+					}
+
+					break;
+				}
+			}
+		}		//		if()
+		else if (userInput == 'd' || userInput == 'D')					// 오른쪽으로 가는 입력값 
+		{
+			userInput = 0;
+
+			for (int i = 0; i < 5; i++)
+			{
+				if (board[i] == '0' && i != MAX_ARR_ELEMENTS)			// 맨 오른쪽이 아닐떄
+				{
+					system("cls");
+
+					board[i + 1] = '0';
+					board[i] = '*';
+
+					for (int j = 0; j < 5; j++)
+					{
+						printf("%c ", board[j]);
+					}
+
+					break;
+				}
+				else if (board[i] == '0' && i == MAX_ARR_ELEMENTS)		// 맨 오른쪽 일때
+				{
+					system("cls");
+
+					for (int j = 0; j < 5; j++)
+					{
+						printf("%c ", board[j]);
+					}
+
+					break;
+				}
+			}
+		}		//		else if()
+	}			//		while()
 }
+
 
 
 void Desciption001(int ), AddOne(int* , int* );
@@ -166,7 +241,7 @@ int main()
 
 	//Homewrk();
 
-
+	HomeWorkVeryHard();
 
 	return 0;
 }
