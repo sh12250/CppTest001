@@ -698,16 +698,11 @@ void IsBattle() {
 
 // ÈúÇÒ±î?
 void PlayerHeal() {
-	const int HEALRATE = 30;
 	const int HEALPOWER = 10;
-	int isHeal = RandomPercent();
 
-	if (isHeal > MAXPERCENT - HEALRATE) {
-		playerCurHp += HEALPOWER;
-
-		if (playerCurHp > playerMaxHp) {
-			playerCurHp = playerMaxHp;
-		}
+	playerCurHp += HEALPOWER;
+	if (playerCurHp > playerMaxHp) {
+		playerCurHp = playerMaxHp;
 	}
 }
 
