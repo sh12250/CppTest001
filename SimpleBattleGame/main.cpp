@@ -698,7 +698,7 @@ void IsBattle() {
 
 // ÈúÇÒ±î?
 void PlayerHeal() {
-	const int HEALRATE = 60;
+	const int HEALRATE = 30;
 	const int HEALPOWER = 10;
 	int isHeal = RandomPercent();
 
