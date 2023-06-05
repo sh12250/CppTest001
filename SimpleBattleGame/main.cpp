@@ -664,7 +664,7 @@ void IsTown() {
 
 // 전투할까?
 void IsBattle() {
-	const int BATTLERATE = 40;
+	const int BATTLERATE = 70;
 	int isBattle = RandomPercent();
 
 	if (isBattle > MAXPERCENT - BATTLERATE) {
