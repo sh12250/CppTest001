@@ -157,7 +157,104 @@ void HomeWorkVeryHard()
 	}			//		while()
 }
 
+void HomeWorkVeryVeryHard()
+{
+	const int MAX_ARR_ELEMENTS = 4;
+	const int MIN_ARR_ELEMENTS = 0;
 
+	int xPosition = 0;
+	int yPosition = 0;
+
+	char userInput = 0;
+	int board[5][5];
+
+	for (int i = 0; i < 5; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			board[i][j] = '*';
+		}
+	}
+
+	board[0][0] = '0';
+
+	for (int i = 0; i < 5; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			printf("%c ", board[i][j]);
+		}
+		printf("\n");
+	}
+
+	while (true)
+	{
+		userInput = _getch();
+		system("cls");
+
+		if (userInput == 'a' || userInput == 'A')
+		{
+			userInput = 0;
+
+			if (yPosition != MIN_ARR_ELEMENTS)
+			{
+				board[xPosition][yPosition] = '*';
+
+				yPosition--;
+				board[xPosition][yPosition] = '0';
+			}
+		}
+		else if (userInput == 'd' || userInput == 'D')
+		{
+			userInput = 0;
+
+			if (yPosition != MAX_ARR_ELEMENTS)
+			{
+				board[xPosition][yPosition] = '*';
+
+				yPosition++;
+				board[xPosition][yPosition] = '0';
+			}
+		}
+		else if (userInput == 'w' || userInput == 'W')
+		{
+			userInput = 0;
+
+			if (xPosition != MIN_ARR_ELEMENTS)
+			{
+				board[xPosition][yPosition] = '*';
+
+				xPosition--;
+				board[xPosition][yPosition] = '0';
+			}
+		}
+		else if (userInput == 's' || userInput == 'S')
+		{
+			userInput = 0;
+
+			if (xPosition != MAX_ARR_ELEMENTS)
+			{
+				board[xPosition][yPosition] = '*';
+
+				xPosition++;
+				board[xPosition][yPosition] = '0';
+			}
+		}
+		else if (userInput == 'q' || userInput == 'Q')
+		{
+			break;
+		}
+
+		for (int i = 0; i < 5; i++)
+		{
+			for (int j = 0; j < 5; j++)
+			{
+				printf("%c ", board[i][j]);
+			}
+			printf("\n");
+		}
+	}			// while()
+}
 
 void Desciption001(int ), AddOne(int* , int* );
 
@@ -241,7 +338,9 @@ int main()
 
 	//Homewrk();
 
-	HomeWorkVeryHard();
+	//HomeWorkVeryHard();
+
+	HomeWorkVeryVeryHard();
 
 	return 0;
 }
