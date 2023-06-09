@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 // C#에서 함수는 메서드다
 // 클래스 안의 함수를 멤버 함수라고 한다
 // 그게 메서드다
+
+// 백버퍼
 
 namespace Gustation
 {
@@ -15,36 +18,24 @@ namespace Gustation
         // main함수는 변수를 밖( 명령 프롬프트 같은 것 )에서 매개변수로 받을 수 있다
         static void Main(string[] args) // static 메서드는 함수 안에서만 부를 수 있다
         {
-            // Descript1();
+            Random random = new Random();
+            int[] lottos = new int[6];
+
+            for(int i=0;i<6; i++) 
+            {
+                lottos[i] = random.Next(1, 45);
+            }
+
+            foreach(int lotto_ in lottos )
+            {
+                Console.Write("{0} ", lotto_);
+                Thread.Sleep(1000);
+                // Task.Delay(1000).Wait();
+            }
+
+            Console.WriteLine();
+
             
-            // 기본적으로 0으로 초기화 되어있다
-            int[] numbers1 = new int[5];
-            int[,] numbers2 = new int[5, 5];
-
-            int valueCount = 0;
-            for(int i = 0; i < 5; i++)
-            {
-                for(int j=0; j < 5; j++)
-                {
-                    valueCount++;
-                    numbers2[i, j] = valueCount;
-                    // Console.WriteLine("numbers[{0}][{2}] 의 값 : {1} \n", i, numbers2[i,j], j);
-                }
-                // Console.WriteLine("numbers[{0}] 의 값 : {1} \n", i, numbers1[i]);
-            }
-            A myClassA = new A();
-
-            myClassA.PrintMyArr(numbers2);
-
-            string[,] board = new string[5, 5];
-
-            for(int y = 0; y < 5; y++)
-            {
-                for(int x = 0;x < 5; x++)
-                {
-                    board[y, x] = "*";
-                }
-            }
         }           // main()
 
 
@@ -69,6 +60,35 @@ namespace Gustation
 
         public void Descript1()
         {
+            // 기본적으로 0으로 초기화 되어있다
+            int[] numbers1 = new int[5];
+            int[,] numbers2 = new int[5, 5];
+
+            int valueCount = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    valueCount++;
+                    numbers2[i, j] = valueCount;
+                    // Console.WriteLine("numbers[{0}][{2}] 의 값 : {1} \n", i, numbers2[i,j], j);
+                }
+                // Console.WriteLine("numbers[{0}] 의 값 : {1} \n", i, numbers1[i]);
+            }
+            A myClassA = new A();
+
+            myClassA.PrintMyArr(numbers2);
+
+            string[,] board = new string[5, 5];
+
+            for (int y = 0; y < 5; y++)
+            {
+                for (int x = 0; x < 5; x++)
+                {
+                    board[y, x] = "*";
+                }
+            }
+
             Console.WriteLine("Hello world! \n");
 
             string userInput1 = default;
