@@ -20,12 +20,12 @@ const int MAXSIZE = 15;
 
 
 // 슬라이드 퍼플게임 구현해서 제출
-// 3 ~ 15 사이의 값을 입력받아서 해당 사이즈에 맞는 슬라이딩 퍼즐 구현(normal)
+// 3 ~ 6 사이의 값을 입력받아서 해당 사이즈에 맞는 슬라이딩 퍼즐 구현(normal)
 // ex) 3 X 3 퍼즐
 // 클리어가 불가능한 퍼즐은 존재하지 않는다(very hard)
 
 int main()
-{
+{				
 	int puzzlePiece[MAXSIZE][MAXSIZE] = { 0, };
 	int userInput = 5;
 
@@ -55,8 +55,8 @@ void PlayPuzzle(int* pieces, int* inputNum)
 
 	int clearCheck = 0;					// 정답지랑 얼마나 같은지 체크
 
-	int xPos = *inputNum - 1;			// 내 시작
-	int yPos = *inputNum - 1;			//    위치
+	int xPos = END;			// 내 시작
+	int yPos = END;			//    위치
 
 	char inputChar = 0;
 
@@ -152,25 +152,33 @@ void PrintPuzzle(int* pieces, int* inputNum, int xPos_, int yPos_)
 	{
 		for (int x = 0; x < *inputNum; x++)
 		{
-			if (*(pieces + (y * MAXSIZE) + x) < 10)				// 한자리 수는 공백을 하나 더 출력
+			if (y == yPos_ && x == xPos_)					// 내 위치
+			{
+				printf("   ");
+			}
+			else if (*(pieces + (y * MAXSIZE) + x) < 10)
 			{
 				printf(" %d ", *(pieces + (y * MAXSIZE) + x));
-			}
-			else if (x == xPos_ && y == yPos_)					// 내 위치
-			{
-				printf(" %c ", *(pieces + (y * MAXSIZE) + x));
 			}
 			else												// 나머지는 그냥 출력
 			{
 				printf("%d ", *(pieces + (y * MAXSIZE) + x));
 			}
+
 		}
+
 		printf("\n");
 	}
 }
 
 void CreatePuzzlePiece(int* pieces,int* inputNum)
 {
+	const int BEGIN = 0;
+	const int END = *inputNum - 1;
+
+	int xPos = END;
+	int yPos = END;
+
 	cout << "슬라이드 퍼즐 게임" << endl;
 	cout << "3 ~ 15 사이의 숫자를 입력해 주세요" << endl;
 	cout << "입력 : ";
@@ -187,18 +195,64 @@ void CreatePuzzlePiece(int* pieces,int* inputNum)
 		}
 	}
 
-	Shuffle((int*)pieces, *inputNum);				// 퍼즐 셔플
+	*(pieces + (yPos * MAXSIZE) + xPos) = ' ';
 
-	for (int y = 0; y < *inputNum; y++)				// 제일 큰수 찾아서 ' ' 넣어주기
+	srand((unsigned int)time(NULL));
+	int randMove = 0;
+	// 퍼즐 셔플
+	for (int i = 0; i < 200; i++)
 	{
-		for (int x = 0; x < *inputNum; x++)
+		randMove = (rand() % 4) + 1;
+
+		switch (randMove)
 		{
-			if (*(pieces + (y * MAXSIZE) + x) == *inputNum * *inputNum)
+		case 1:		// 위로 이동
+			if (yPos != BEGIN)
 			{
-				*(pieces + (y * MAXSIZE) + x) = ' ';
-				SwapOnce(pieces + (y * MAXSIZE) + x, pieces + ((*inputNum - 1) * MAXSIZE) + (*inputNum - 1));
-				break;
+				SwapOnce(pieces + (yPos * MAXSIZE) + xPos, pieces + ((yPos - 1) * MAXSIZE) + xPos);
+				yPos--;
 			}
+			break;
+		case 2:		// 아래로 이동
+			if (yPos != END)
+			{
+				SwapOnce(pieces + (yPos * MAXSIZE) + xPos, pieces + ((yPos + 1) * MAXSIZE) + xPos);
+				yPos++;
+			}
+			break;
+		case 3:		// 왼쪽으로 이동
+			if (xPos != BEGIN)
+			{
+				SwapOnce(pieces + (yPos * MAXSIZE) + xPos, pieces + (yPos * MAXSIZE) + xPos - 1);
+				xPos--;
+			}
+			break;
+		case 4:		// 오른쪽으로 이동
+			if (xPos != END)
+			{
+				SwapOnce(pieces + (yPos * MAXSIZE) + xPos, pieces + (yPos * MAXSIZE) + xPos + 1);
+				xPos++;
+			}
+			break;
+		}
+	}
+
+	while (true)
+	{
+		if (xPos == END && yPos == END)
+		{
+			break;
+		}
+
+		if (yPos != END)
+		{
+			SwapOnce(pieces + (yPos * MAXSIZE) + xPos, pieces + ((yPos + 1) * MAXSIZE) + xPos);
+			yPos++;
+		}
+		else if (xPos != END)
+		{
+			SwapOnce(pieces + (yPos * MAXSIZE) + xPos, pieces + (yPos * MAXSIZE) + xPos + 1);
+			xPos++;
 		}
 	}
 
